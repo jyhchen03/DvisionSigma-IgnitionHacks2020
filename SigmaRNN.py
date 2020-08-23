@@ -61,7 +61,7 @@ targets = np.concatenate((y_train, y_test), axis=0)
 
 kf = KFold(n_splits=num_folds, shuffle=True)
 fold = 1
-for train, test in kfold.split(inputs, targets):
+for train, test in kf.split(inputs, targets):
     # Defining LSTM neural architecture, and maybe other candidate models
     model = Sequential()
     model.add(LSTM(50, dropout=0.2, recurrent_dropout=0.2))
