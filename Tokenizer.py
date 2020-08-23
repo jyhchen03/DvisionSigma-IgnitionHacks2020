@@ -5,20 +5,22 @@ import re
 import nltk
 from gensim.models import Word2Vec
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import TweetTokenizer
 from collections import defaultdict
 
 columns = defaultdict(list)
-re_list = [r"(?:@|#)[^\s]+",r"&.+?;",r"(?:http|www.)\S+",r"\d+",r"[^\w\d()':;\s]+"]
+re_list = [r"(?:#|@)[^\s]+",r"&.+?;",r"(?:http|www.)\S+",r"[^<3]\d+",r"[^\w\d()'<|@:;\s]+"]
 
 def cleanup(clean_data):
+    clean_data = re.sub(r"&lt;", "<", clean_data)
     for i in range(len(re_list)):
         clean_data = re.sub(re_list[i], " ", clean_data)
     return clean_data.lower()
 
 def tokenize(tokenized_file, data):         #TODO: possible stopwords
     clean_data = cleanup(data)
-    tokentext = str(word_tokenize(clean_data))
+    tknzr = TweetTokenizer(reduce_len=True)
+    tokentext = str(tknzr.tokenize(clean_data))
     #print (str(tokentext) + '\n')
     with open(tokenized_file, 'a') as f:
         f.write(tokentext + '\n')
