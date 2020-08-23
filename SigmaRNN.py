@@ -61,14 +61,14 @@ targets = np.concatenate((y_train, y_test), axis=0)
 
 kf = KFold(n_splits=num_folds, shuffle=True)
 fold = 1
-for train, test in kfold.split(inputs, targets):
+for train, test in kf.split(inputs, targets):
     # Defining LSTM neural architecture, and maybe other candidate models
     model = Sequential()
     model.add(LSTM(50, dropout=0.2, recurrent_dropout=0.2))
     model.add(Dense(1, activation='sigmoid'))
     model.compile(loss='categorical_crossentropy',
                   optimizer='adam', metrics=['accuracy'])  # Configure loss and other metrics
-    trained_model = model.fit(X, y, validation_split=0.2, epochs=4)
+    trained_model = model.fit(X_train, y_train, validation_split=0.2, epochs=4)
 
     # Determining how well the model generalizes
     scores = model.evaluate(inputs[test], targets[test], verbose=0)
