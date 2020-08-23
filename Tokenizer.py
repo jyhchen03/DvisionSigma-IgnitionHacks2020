@@ -9,15 +9,12 @@ from nltk.tokenize import word_tokenize
 from collections import defaultdict
 
 columns = defaultdict(list)
+re_list = [r"(?:@|#)[^\s]+",r"&.+?;",r"(?:http|www.)\S+",r"\d+",r"[^\w\d()':;\s]+"]
 
 def cleanup(clean_data):
-    clean_data = re.sub(r"(?:@|#)[^\s]+", "", clean_data)                                 #remove twitter handles
-    clean_data = re.sub(r"&.+?;", " ", clean_data)
-    clean_data = re.sub(r"(?:http|www.)\S+", " ", clean_data)
-    clean_data = re.sub(r"\d+", " ", clean_data)                                            #remove all numbers
-    clean_data = re.sub(r"[^\w\d()':;\s]+", " ", clean_data)                                     #remove punctuation except ; : ( ) '
-    clean_data = clean_data.lower()
-    return clean_data
+    for i in range(len(re_list)):
+        clean_data = re.sub(re_list[i], " ", clean_data)
+    return clean_data.lower()
 
 def tokenize(tokenized_file, data):         #TODO: possible stopwords
     clean_data = cleanup(data)
