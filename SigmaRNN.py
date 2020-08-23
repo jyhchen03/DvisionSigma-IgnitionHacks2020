@@ -8,7 +8,6 @@ from keras.layers import Dense
 from keras.models import load_model
 from sklearn.model_selection import KFold
 
-
 token_file = filename
 f = open(tokenized_file, "r")
 token_text = f.readlines()
@@ -21,8 +20,9 @@ def vectorize_word(t_list, size):
                             window=5, min_count=1, workers=4)
     vector_model.save("word2vec.model")
     return vector_model
-# Vector_model contains 100 x 1 vectors for every distinct word in training corpus
 
+
+# Vector_model contains 100 x 1 vectors for every distinct word in training corpus
 def padding(vector_sentence):
     for l in token_list:
         difference = longest_sentence - len(l)
@@ -31,6 +31,7 @@ def padding(vector_sentence):
             zero_vector = np.zeros(100, 1)
             vector_sentence.insert(0, zero_vector)
     return vector_sentence
+
 
 def vectorize_text(t_list, size):
     vector_text = []
@@ -43,13 +44,11 @@ def vectorize_text(t_list, size):
 
 training_data = vectorize_text(token_list, 100)  # List of all sentences in vectorized form
 
-
 # Divide training and labels
 X_train = []
 X_test = []
 y_train = []
 y_test = []
-
 
 # Cross validation
 num_folds = 5
@@ -60,7 +59,7 @@ inputs = np.concatenate((X_train, X_test), axis=0)
 targets = np.concatenate((y_train, y_test), axis=0)
 
 kf = KFold(n_splits=num_folds, shuffle=True)
-fold = 1
+
 for train, test in kf.split(inputs, targets):
     # Defining LSTM neural architecture, and maybe other candidate models
     model = Sequential()
@@ -75,3 +74,10 @@ for train, test in kf.split(inputs, targets):
     fold_accuracy.append(scores[1])
     fold_loss.append(scores[0])
 
+print('Score per fold')
+for i in range(0, len(fold_accuracy)):
+    print(f'> Fold {i + 1} - Loss: {fold_loss[i]} - Accuracy: {fold_accuracy[i]}%')
+
+print('Average scores for all folds:')
+print(f'> Accuracy: {np.mean(fold_accuracy)} (+- {np.std(fold_accuracy)})')
+print(f'> Loss: {np.mean(fold_loss)}')
