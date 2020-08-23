@@ -68,7 +68,7 @@ for train, test in kf.split(inputs, targets):
     model.add(Dense(1, activation='sigmoid'))
     model.compile(loss='categorical_crossentropy',
                   optimizer='adam', metrics=['accuracy'])  # Configure loss and other metrics
-    trained_model = model.fit(X, y, validation_split=0.2, epochs=4)
+    trained_model = model.fit(X_train, y_train, validation_split=0.2, epochs=4)
 
     # Determining how well the model generalizes
     scores = model.evaluate(inputs[test], targets[test], verbose=0)
