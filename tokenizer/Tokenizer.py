@@ -14,10 +14,10 @@ from collections import defaultdict
 columns = defaultdict(list)
 re_list = [r"(?:#|@)[^\s]+",r"&.+?;",r"(?:http|www.)\S+",r"[^<3]\d+",r"[^\w\d()'<|@:;\s]+"]
 
-filename = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\training_data.csv'
-tokenized_file = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\tokenized_data.txt'
-dataframe = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\dataframe.txt'
-labels = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\labels.txt'
+filename = 'training_data.csv'
+tokenized_file = 'tokenized_data.txt'
+dataframe = 'dataframe.txt'
+labels = 'labels.txt'
 
 def cleanup(clean_data):
     clean_data = re.sub(r"&lt;", "<", clean_data)
@@ -25,7 +25,7 @@ def cleanup(clean_data):
         clean_data = re.sub(re_list[i], " ", clean_data)
     return clean_data.lower()
 
-def tokenize(tokenized_file, data):         #TODO: possible stopwords
+def tokenize(tokenized_file, data):             #TODO: stopwords
     clean_data = cleanup(data)
     tknzr = TweetTokenizer(reduce_len=True)
     tokentext = tknzr.tokenize(clean_data)
