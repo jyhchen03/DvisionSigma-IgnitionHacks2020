@@ -1,2 +1,3 @@
 # IgnitionHacks2020
  
+## This repo contains our Twitter sentiment analysis project files for Ignition Hacks 2020. Data was preprocessed and cleaned using regular expressions, then tokenized, before undergoing a word embedding process which transformed individual words within each tweet into column vectors. Cosine similarity between vector representations indicates how similar two words are semantically. Each tweet containing its vectorized words was then fed into a gated recurrent neural network, called LSTM (Long Short Term Memory), with a many-to-one architecture. Loss was calculated using categorical cross-entropy, and gradient descent was completed with Adam, a stochastic gradient descent algorithm.
