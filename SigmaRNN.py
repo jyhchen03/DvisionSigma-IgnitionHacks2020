@@ -9,9 +9,8 @@ from keras.models import load_model
 from sklearn.model_selection import KFold, train_test_split
 
 
-filename = 'tokenized_data.txt'
-dataframe = 'dataframe.txt'
-labels = 'labels.txt'
+filename = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\tokenized_data.txt'
+labels = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\labels.txt'
 
 token_file = filename
 f = open(token_file, "r")
@@ -50,8 +49,7 @@ training_data = vectorize_text(token_list, 100)  # List of all sentences in vect
 # Getting labels
 labels = open(labels, "r")
 y = labels.read()
-print(y)
-'''
+
 # Divide training and labels
 X_train, X_test, y_train, y_test = train_test_split(training_data, y, test_size = 0.2, random_state = 42)
 
@@ -86,4 +84,3 @@ for i in range(0, len(fold_accuracy)):
 print('Average scores for all folds:')
 print(f'> Accuracy: {np.mean(fold_accuracy)} (+- {np.std(fold_accuracy)})')
 print(f'> Loss: {np.mean(fold_loss)}')
-'''

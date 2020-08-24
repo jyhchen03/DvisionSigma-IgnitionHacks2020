@@ -58,12 +58,12 @@ with open(filename) as f:
         for (k,v) in row.items():
             columns[k].append(v)
 
-#text = get_tokenized_data(tokenized_file, columns['Text'])
+text = get_tokenized_data(tokenized_file, columns['Text'])
 label = get_label_column(columns['Sentiment'])
 
-write_labels()
-'''pd.set_option("display.max_rows", None)
+#write_labels()
+pd.set_option("display.max_rows", None)
 dataframe_list = pd.DataFrame(np.column_stack([label,text]),columns=['Sentiment','Text'])
 with open(dataframe,'a') as frame:
-    frame.write(str(dataframe_list))'''
+    frame.write(str(dataframe_list))
 
