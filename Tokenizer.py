@@ -17,6 +17,7 @@ re_list = [r"(?:#|@)[^\s]+",r"&.+?;",r"(?:http|www.)\S+",r"[^<3]\d+",r"[^\w\d()'
 filename = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\training_data.csv'
 tokenized_file = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\tokenized_data.txt'
 dataframe = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\dataframe.txt'
+labels = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\labels.txt'
 
 def cleanup(clean_data):
     clean_data = re.sub(r"&lt;", "<", clean_data)
@@ -47,16 +48,22 @@ def get_label_column(data):
         x(data[i])
     return label_list
 
+def write_labels():
+    with open(labels,'a') as l:
+        l.write(str(label))
+
 with open(filename) as f:
     reader = csv.DictReader(f)
     for row in reader:
         for (k,v) in row.items():
             columns[k].append(v)
 
-text = get_tokenized_data(tokenized_file, columns['Text'])
+#text = get_tokenized_data(tokenized_file, columns['Text'])
 label = get_label_column(columns['Sentiment'])
 
-pd.set_option("display.max_rows", None)
+write_labels()
+'''pd.set_option("display.max_rows", None)
 dataframe_list = pd.DataFrame(np.column_stack([label,text]),columns=['Sentiment','Text'])
 with open(dataframe,'a') as frame:
-    frame.write(str(dataframe_list))
+    frame.write(str(dataframe_list))'''
+
