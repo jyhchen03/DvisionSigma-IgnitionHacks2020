@@ -6,10 +6,15 @@ from keras.models import Sequential
 from keras.layers import LSTM
 from keras.layers import Dense
 from keras.models import load_model
-from sklearn.model_selection import KFold
+from sklearn.model_selection import KFold, train_test_split
+
+
+filename = 'tokenized_data.txt'
+dataframe = 'dataframe.txt'
+labels = 'labels.txt'
 
 token_file = filename
-f = open(tokenized_file, "r")
+f = open(token_file, "r")
 token_text = f.readlines()
 token_list = list(token_text)
 longest_sentence = max([len(subl) for subl in token_list])
@@ -26,7 +31,6 @@ def vectorize_word(t_list, size):
 def padding(vector_sentence):
     for l in token_list:
         difference = longest_sentence - len(l)
-        vector_sentence = vector_sentence(l)
         for i in range(difference):
             zero_vector = np.zeros(100, 1)
             vector_sentence.insert(0, zero_vector)
@@ -41,14 +45,15 @@ def vectorize_text(t_list, size):
         vector_text.append(vector_sentence)
     return vector_text
 
-
 training_data = vectorize_text(token_list, 100)  # List of all sentences in vectorized form
 
+# Getting labels
+labels = open(labels, "r")
+y = labels.read()
+print(y)
+'''
 # Divide training and labels
-X_train = []
-X_test = []
-y_train = []
-y_test = []
+X_train, X_test, y_train, y_test = train_test_split(training_data, y, test_size = 0.2, random_state = 42)
 
 # Cross validation
 num_folds = 5
@@ -81,3 +86,4 @@ for i in range(0, len(fold_accuracy)):
 print('Average scores for all folds:')
 print(f'> Accuracy: {np.mean(fold_accuracy)} (+- {np.std(fold_accuracy)})')
 print(f'> Loss: {np.mean(fold_loss)}')
+'''
