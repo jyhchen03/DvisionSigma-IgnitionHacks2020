@@ -11,17 +11,16 @@ from keras.models import load_model
 from sklearn.model_selection import KFold, train_test_split
 
 
-filename = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\tokenized_data.txt'
-labels = 'C:\\Users\\Johnn\\Documents\\GitHub\\IgnitionHacks2020\\labels.txt'
+labels = 'tokenizer\\labels.txt'
 
-#longest_sentence = max([len(subl) for subl in token_list[:250000]])
-longest_sentence = 50
+longest_sentence = max([len(subl) for subl in token_list])
+#longest_sentence = 50
 
 def vectorize_word(t_list, size):
-    #vector_model = Word2Vec(t_list, size=size,
-    #                        window=5, min_count=1, workers=4)
-    #vector_model.save("word2vec.model")
-    vector_model = Word2Vec.load("word2vec.model")
+    vector_model = Word2Vec(t_list, size=size,
+                            window=5, min_count=1, workers=4)
+    vector_model.save("word2vec.model")
+    #vector_model = Word2Vec.load("word2vec.model")
     return vector_model
 
 
@@ -46,7 +45,7 @@ def vectorize_text(t_list, size):
 training_data = vectorize_text(token_list, 10)  # List of all sentences in vectorized form
 print(training_data)
 
-'''# Getting labels
+# Getting labels
 labels = open(labels, "r")
 y = labels.read()
 
@@ -83,4 +82,4 @@ for i in range(0, len(fold_accuracy)):
 
 print('Average scores for all folds:')
 print(f'> Accuracy: {np.mean(fold_accuracy)} (+- {np.std(fold_accuracy)})')
-print(f'> Loss: {np.mean(fold_loss)}')'''
+print(f'> Loss: {np.mean(fold_loss)}')
